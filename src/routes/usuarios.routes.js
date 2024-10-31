@@ -19,6 +19,7 @@ usuariosRoutes.get("/", (req, res) => {
 
 usuariosRoutes.post("/", (req, res) =>{
     const {name, email, password} = req.body;
+    //const name = req.body
 
     const usuario = usersRepository.addUser(name, email, password)
 
@@ -27,5 +28,25 @@ usuariosRoutes.post("/", (req, res) =>{
         usuario,
     });
 });
+
+usuariosRoutes.get("/:id", (req, res) => {
+    const { id } = req.params;
+    // const id = req.params.id
+    const user = usersRepository.getUserById(id);
+
+    if (!user) {
+        return res.status(404).json({
+            message: `Usuário com id ${id} não encontrado!`,
+        });
+    }
+
+    return res.status(200).json({
+        message: `Usuário com id ${id} encontrado!`,
+        user,
+    });
+})
+
+usuariosRoutes.put("/:id", (req, res) => {});
+usuariosRoutes.delete("/:id", (req, res) => {});
 
  export default usuariosRoutes;
